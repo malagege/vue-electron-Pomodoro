@@ -32,7 +32,7 @@ const config = {
       safari10: false,
     },
     lib: {
-      entry: 'src/index.ts',
+      entry: 'src/index.js',
       formats: ['cjs'],
     },
     rollupOptions: {

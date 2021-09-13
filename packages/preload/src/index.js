@@ -4,7 +4,7 @@ const apiKey = 'electron';
 /**
  * @see https://github.com/electron/electron/issues/21437#issuecomment-573522360
  */
-const api: ElectronApi = {
+const api = {
   versions: process.versions,
 };
 

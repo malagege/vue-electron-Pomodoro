@@ -3,6 +3,9 @@
 const {createServer, build, createLogger} = require('vite');
 const electronPath = require('electron');
 const {spawn} = require('child_process');
+// [javascript - How to use electron-devtools-installer? - Stack Overflow](https://stackoverflow.com/questions/45199355/how-to-use-electron-devtools-installer)
+// const { default: installExtension, REACT_DEVELOPER_TOOLS } = require('electron-devtools-installer');
+
 
 
 /** @type 'production' | 'development' | 'test' */
@@ -43,6 +46,7 @@ const getWatcher = ({name, configFile, writeBundle}) => {
  * @param {import('vite').ViteDevServer} viteDevServer
  * @returns {Promise<import('vite').RollupOutput | Array<import('vite').RollupOutput> | import('vite').RollupWatcher>}
  */
+
 const setupMainPackageWatcher = (viteDevServer) => {
   // Write a value to an environment variable to pass it to the main process.
   {
@@ -106,6 +110,15 @@ const setupPreloadPackageWatcher = (viteDevServer) => {
 
     await setupPreloadPackageWatcher(viteDevServer);
     await setupMainPackageWatcher(viteDevServer);
+    // [(node:19656) ExtensionLoadWarning: Warnings loading extension at · Issue #943 · nklayman/vue-cli-plugin-electron-builder](https://github.com/nklayman/vue-cli-plugin-electron-builder/issues/943)
+    // try {
+    //   await installExtension({
+    //     id: 'ljjemllljcmogpfapbkkighbhhppjdbg', //Vue Devtools beta
+    //     electron: '>=1.2.1'
+    //   })
+    // } catch (e) {
+    //   console.error('Vue Devtools failed to install:', e.toString())
+    // }
   } catch (e) {
     console.error(e);
     process.exit(1);

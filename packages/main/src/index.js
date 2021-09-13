@@ -24,7 +24,7 @@ if (import.meta.env.MODE === 'development') {
     .catch(e => console.error('Failed install extension:', e));
 }
 
-let mainWindow: BrowserWindow | null = null;
+let mainWindow = null;
 
 const createWindow = async () => {
   mainWindow = new BrowserWindow({
