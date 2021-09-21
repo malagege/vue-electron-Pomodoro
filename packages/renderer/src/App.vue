@@ -58,6 +58,7 @@ export default defineComponent({
     return {
       h: 40,
       settings:{
+        activeButton: 'stop',
         stime: 1500,
         ttime: 300,
         autotime: 100,

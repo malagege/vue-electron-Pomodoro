@@ -1,5 +1,16 @@
 <template>
   <div class="bg-white d-grid">
+    <span
+      class="btn text-center"
+      style="margin-right: auto;"
+    >
+      <span v-if="settings.activeButton === 'play'">
+        <IconPlayCircle />
+      </span>
+      <span v-else>
+        <IconStopCircle />
+      </span>
+    </span>
     <span class="text-center">XX:XX</span>
     <span
       class="btn text-center"
@@ -8,87 +19,94 @@
     >
       <IconSettings />
     </span>
-    <div v-if="openSetting">
-      <div class="padding-25">
-        <span class="st__title">
-          置頂:
-        </span>
-        <span>
-          <input
-            type="checkbox" 
-            :checked="settings.windowAlwaysOnTop" 
-            @change="$emit('update:settings',{ windowAlwaysOnTop: $event.target.checked})"
-          >
-        </span>
-      </div>
-      <div>
-        <span class="st__title">
-          番茄時間:
-        </span>
-        <span>
-          <input
-            type="number" 
-            :value="settings.stime" 
-            @change="$emit('update:settings',{ stime: $event.target.value})"
-          >秒
-        </span>
-      </div>
-      <div>
-        <span class="st__title">
-          休息時間:
-        </span>
-        <span>
-          <input
-            type="number" 
-            :value="settings.ttime"
-            @change="$emit('update:settings',{ ttime: $event.target.value})"
-          >秒
-        </span>
-      </div>
-      <div>
-        <span class="st__title">
-          自動啟動時間:
-        </span>
-        <span>
-          <input
-            type="number" 
-            :value="settings.autotime"
-            @change="$emit('update:settings',{ autotime: $event.target.value})"
-          >秒
-        </span>
-      </div>
-      <div>
-        <span class="st__title">
-          工作語句:
-        </span>
-        <span>
-          <textarea 
-            :value="settings.startword"
-            @change="$emit('update:settings',{ startword: $event.target.value})"
-          />
-        </span>
-      </div>
-      <div>
-        <span class="st__title">
-          休息語句:
-        </span>
-        <span>
-          <textarea 
-            :value="settings.takeword"
-            @change="$emit('update:settings',{ takeword: $event.target.value })"
-          />
-        </span>
-      </div>
+  </div>
+  <div
+    v-if="openSetting"
+    class="bg-white"
+  >
+    <div class="padding-25">
+      <span class="st__title">
+        置頂:
+      </span>
+      <span>
+        <input
+          type="checkbox" 
+          :checked="settings.windowAlwaysOnTop" 
+          @change="$emit('update:settings',{ windowAlwaysOnTop: $event.target.checked})"
+        >
+      </span>
+    </div>
+    <div>
+      <span class="st__title">
+        番茄時間:
+      </span>
+      <span>
+        <input
+          type="number" 
+          :value="settings.stime" 
+          @change="$emit('update:settings',{ stime: $event.target.value})"
+        >秒
+      </span>
+    </div>
+    <div>
+      <span class="st__title">
+        休息時間:
+      </span>
+      <span>
+        <input
+          type="number" 
+          :value="settings.ttime"
+          @change="$emit('update:settings',{ ttime: $event.target.value})"
+        >秒
+      </span>
+    </div>
+    <div>
+      <span class="st__title">
+        自動啟動時間:
+      </span>
+      <span>
+        <input
+          type="number" 
+          :value="settings.autotime"
+          @change="$emit('update:settings',{ autotime: $event.target.value})"
+        >秒
+      </span>
+    </div>
+    <div>
+      <span class="st__title">
+        工作語句:
+      </span>
+      <span>
+        <textarea 
+          :value="settings.startword"
+          @change="$emit('update:settings',{ startword: $event.target.value})"
+        />
+      </span>
+    </div>
+    <div>
+      <span class="st__title">
+        休息語句:
+      </span>
+      <span>
+        <textarea 
+          :value="settings.takeword"
+          @change="$emit('update:settings',{ takeword: $event.target.value })"
+        />
+      </span>
     </div>
   </div>
 </template>
 <script>
 import {defineComponent} from 'vue';
 import IconSettings from '~icons/ri/settings-4-fill';
+import IconPlayCircle from '~icons/ri/play-circle-fill';
+import IconStopCircle from '~icons/ri/stop-circle-fill';
 
 export default defineComponent({
     components:{
         IconSettings,
+        IconPlayCircle,
+        IconStopCircle,
     },
     props:{
         settings: Object,
@@ -136,7 +154,7 @@ input[type="number"]{
 .d-grid{
     display: grid;
     padding: 3px 4px;
-    grid-template-columns: 1fr 30px;
+    grid-template-columns: 30px 1fr 30px;
 }
 
 .bg-white{
