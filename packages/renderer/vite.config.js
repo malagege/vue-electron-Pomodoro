@@ -4,6 +4,7 @@ import {chrome} from '../../electron-vendors.config.json';
 import {join} from 'path';
 import {builtinModules} from 'module';
 import vue from '@vitejs/plugin-vue';
+import Icons from 'unplugin-icons/vite';
 
 const PACKAGE_ROOT = __dirname;
 
@@ -19,7 +20,7 @@ const config = {
       '/@/': join(PACKAGE_ROOT, 'src') + '/',
     },
   },
-  plugins: [vue()],
+  plugins: [vue(), Icons({ /* options */ })],
   base: '',
   server: {
     fs: {

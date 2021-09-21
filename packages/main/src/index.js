@@ -1,7 +1,39 @@
-import {app, BrowserWindow} from 'electron';
+import {app, BrowserWindow,ipcMain} from 'electron';
 import {join} from 'path';
 import {URL} from 'url';
 
+// 退出程序
+ipcMain.on('window-close', function () {
+  app.quit();
+});
+// 最小化
+ipcMain.on('window-minimize', function () {
+  mainWindow.minimize();
+});
+// 全屏
+ipcMain.on('window-maximize', function () {
+  if(mainWindow.isMaximized()){
+    mainWindow.unmaximize();
+  }else{
+    mainWindow.maximize();
+  }
+});
+// 退出全屏
+ipcMain.on('window-unmaximize', function () {
+  mainWindow.unmaximize();
+});
+
+ipcMain.on('enable-window-always-on-top', function () {
+  mainWindow.setAlwaysOnTop(true);
+});
+
+ipcMain.on('diseable-window-always-on-top', function () {
+  mainWindow.setAlwaysOnTop(false);
+});
+
+ipcMain.on('get-window-always-on-top', function (event) {
+  event.returnValue = mainWindow.isAlwaysOnTop();
+});
 
 const isSingleInstance = app.requestSingleInstanceLock();
 
@@ -32,7 +64,14 @@ const createWindow = async () => {
     webPreferences: {
       nativeWindowOpen: true,
       preload: join(__dirname, '../../preload/dist/index.cjs'),
+      // nodeIntegration: true,
+      // contextIsolation: false
     },
+    alwaysOnTop: true,
+    width: 800,height: 600,
+    frame: false,
+    transparent: true,
+    // resizable: false
   });
 
   /**
