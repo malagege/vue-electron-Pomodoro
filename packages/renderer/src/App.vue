@@ -40,7 +40,9 @@ import TheBackground from '/@/components/TheBackground.vue';
 import IconClose from '~icons/majesticons/close';
 import IconWindowMinimize from '~icons/zmdi/window-minimize';
 import Setting from '/@/components/Setting.vue';
-import {useElectron as electron} from '/@/use/electron';
+import {useElectron } from '/@/use/electron';
+let electron = useElectron();
+
   // const { ipcRenderer } = window.electron
 export default defineComponent({
   name: 'App',
@@ -54,7 +56,7 @@ export default defineComponent({
   },
   data(){
     return {
-      h: 100,
+      h: 40,
       settings:{
         stime: 1500,
         ttime: 300,
