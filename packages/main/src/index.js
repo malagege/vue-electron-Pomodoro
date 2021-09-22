@@ -35,6 +35,11 @@ ipcMain.on('get-window-always-on-top', function (event) {
   event.returnValue = mainWindow.isAlwaysOnTop();
 });
 
+
+ipcMain.on('window-show', function () {
+  mainWindow.show();
+});
+
 const isSingleInstance = app.requestSingleInstanceLock();
 
 if (!isSingleInstance) {
