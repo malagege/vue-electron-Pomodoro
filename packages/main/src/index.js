@@ -1,7 +1,7 @@
 import {app, BrowserWindow,ipcMain} from 'electron';
 import {join} from 'path';
 import {URL} from 'url';
-
+var desktopIdle = require('desktop-idle');
 // 退出程序
 ipcMain.on('window-close', function () {
   app.quit();
@@ -18,7 +18,11 @@ ipcMain.on('window-maximize', function () {
     mainWindow.maximize();
   }
 });
+ipcMain.on('window-idle', function(){
+  console.log(desktopIdle.getIdleTime());
+});
 // 退出全屏
+// [環境 | Electron + Python + Vue. 採坑筆記 | by d.l.spm | Medium](https://cbb104002.medium.com/%E7%92%B0%E5%A2%83-electron-python-vue-fa164eb20250)
 ipcMain.on('window-unmaximize', function () {
   mainWindow.unmaximize();
 });
