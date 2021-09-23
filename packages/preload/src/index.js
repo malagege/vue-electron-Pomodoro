@@ -16,6 +16,7 @@ const api = {
   diseableWindowAlwaysOnTop: ()=> ipcRenderer.send('diseable-window-always-on-top'),
   getWindowAlwaysOnTop: ()=> ipcRenderer.sendSync('get-window-always-on-top'), //ipcRenderer.send('get-window-always-on-top'),
   windowShow: ()=>ipcRenderer.send('window-show'),
+  getWindowDesktopIdle: ()=> ipcRenderer.sendSync('get-window-desktop-idle'),
 };
 // [[ Day 9 ] - 動物聊天室(二) - IPC 與訊息交換 - iT 邦幫忙::一起幫忙解決難題，拯救 IT 人的一天](https://ithelp.ithome.com.tw/articles/10235110?sc=iThomeR)
 

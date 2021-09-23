@@ -4,10 +4,16 @@
       class="btn text-center"
       style="margin-right: auto;"
     >
-      <span v-if="settings.activeButton === 'play'">
+      <span
+        v-if="settings.activeButton === 'play'"
+        @click="$emit('update:settings',{ activeButton: 'stop'})"
+      >
         <IconPlayCircle />
       </span>
-      <span v-else>
+      <span
+        v-else
+        @click="$emit('update:settings',{ activeButton: 'play'})"
+      >
         <IconStopCircle />
       </span>
     </span>

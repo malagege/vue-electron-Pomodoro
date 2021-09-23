@@ -41,6 +41,7 @@ import IconClose from '~icons/majesticons/close';
 import IconWindowMinimize from '~icons/zmdi/window-minimize';
 import Setting from '/@/components/Setting.vue';
 import {useElectron } from '/@/use/electron';
+import Timer from '/@/util/Timer.js';
 let electron = useElectron();
 
   // const { ipcRenderer } = window.electron
@@ -77,11 +78,18 @@ export default defineComponent({
       }else{
         this.diseableWindowAlwaysOnTop();
       }
+    }, 
+    'settings.activeButton'(newvalue,oldvalue){
+      console.log('watch settings.activeButton',newvalue,oldvalue);
+      if(newvalue === oldvalue){
+        return false;
+      }
+
+
     },
   },
   mounted(){
-    // console.log(' xxx', this.getWindowAlwaysOnTop())
-    // this.settings= 
+    this.Timer = new Timer(this.settings.stime, this.openClockHandle());
   },
   methods:{
     maximize() {
@@ -111,6 +119,13 @@ export default defineComponent({
       console.log('updateSettings', settings);
 
       Object.assign(this.settings,settings);
+    },
+    getWindowDesktopIdle(){
+      console.log(electron.getWindowDesktopIdle());
+      return electron.getWindowDesktopIdle();
+    },
+    openClockHandle(){
+      this.settings.activeButton = 'play';
     },
   },
 });

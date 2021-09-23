@@ -2,6 +2,8 @@ import {app, BrowserWindow,ipcMain} from 'electron';
 import {join} from 'path';
 import {URL} from 'url';
 var desktopIdle = require('desktop-idle');
+
+// [[ Day 9 ] - 動物聊天室(二) - IPC 與訊息交換 - iT 邦幫忙::一起幫忙解決難題，拯救 IT 人的一天](https://ithelp.ithome.com.tw/articles/10235110)
 // 退出程序
 ipcMain.on('window-close', function () {
   app.quit();
@@ -18,9 +20,7 @@ ipcMain.on('window-maximize', function () {
     mainWindow.maximize();
   }
 });
-ipcMain.on('window-idle', function(){
-  console.log(desktopIdle.getIdleTime());
-});
+
 // 退出全屏
 // [環境 | Electron + Python + Vue. 採坑筆記 | by d.l.spm | Medium](https://cbb104002.medium.com/%E7%92%B0%E5%A2%83-electron-python-vue-fa164eb20250)
 ipcMain.on('window-unmaximize', function () {
@@ -43,6 +43,12 @@ ipcMain.on('get-window-always-on-top', function (event) {
 ipcMain.on('window-show', function () {
   mainWindow.show();
 });
+
+
+ipcMain.on('get-window-desktop-idle', function (event) {
+  event.returnValue = desktopIdle.getIdleTime();
+});
+
 
 const isSingleInstance = app.requestSingleInstanceLock();
 

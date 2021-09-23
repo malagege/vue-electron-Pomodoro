@@ -1,7 +1,8 @@
-export class Timer {
-    constructor(i) {
+export default class Timer {
+    constructor(i,callback) {
       this.i = i;
       this.stime = i;
+      this.callback = callback;
       this.start();
     }
     test() {
@@ -14,6 +15,7 @@ export class Timer {
         console.log('Timer i:' + this.i);
         if (this.i <= 0) {
           this.stop();
+          this.callback();
         }
       }, 1000);
     }
