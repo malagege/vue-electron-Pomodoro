@@ -25,6 +25,7 @@
   </div>
   <Setting
     :settings="settings"
+    :timer="timer"
     @update:settings="updateSettings"
   />
   <div style="position: relative;">
@@ -57,7 +58,9 @@ export default defineComponent({
   },
   data(){
     return {
+      mode: 'work',//work,break
       h: 40,
+      timer:{i:0},
       settings:{
         activeButton: 'stop',
         stime: 1500,
@@ -84,12 +87,22 @@ export default defineComponent({
       if(newvalue === oldvalue){
         return false;
       }
-
-
+    },
+    mode(){
+      let {time,everytimeHandle,finishHandle} = this.getModeAndHandle();
+      let timer = new Timer(time ,everytimeHandle ,finishHandle);
+      this.timer = timer;
+      console.log('timer', timer);
     },
   },
   mounted(){
-    this.Timer = new Timer(this.settings.stime, this.openClockHandle());
+      console.log('this.getModeAndHandle()',this.getModeAndHandle());
+      let {time,everytimeHandle,finishHandle} = this.getModeAndHandle();
+      let timer = new Timer(time ,everytimeHandle , finishHandle);
+      this.timer = timer;
+      console.log('timer', timer);
+
+    // this.Timer = new Timer(this.settings.stime, this.openClockHandle());
   },
   methods:{
     maximize() {
@@ -126,6 +139,44 @@ export default defineComponent({
     },
     openClockHandle(){
       this.settings.activeButton = 'play';
+    },
+    getModeAndHandle(){
+      if(this.mode === 'work'){
+        return {
+          time: this.settings.stime,
+          everytimeHandle: this.workEverytimeHandle,
+          finishHandle: this.workFinishHandle,
+        };
+      }else{
+        return {
+          time: this.settings.ttime,
+          everytimeHandle: this.breakEverytimeHandle,
+          finishHandle: this.breakeFinishHandle,
+        };
+      }
+    },
+    workEverytimeHandle(timer){
+      console.log('workEverytimeHandle');
+      if( this.settings.activeButton === 'play' ){
+        timer.i++;
+      }
+    },
+    workFinishHandle(){
+      console.log('workFinishHandle finished');
+      this.mode = 'break';
+
+    },
+    breakEverytimeHandle(timer){
+      console.log('breakEverytimeHandle');
+      if( this.settings.activeButton === 'play' ){
+        timer.i++;
+      }
+      //todo
+    },
+    breakeFinishHandle(){
+      console.log('breakeFinishHandle finished');
+      this.mode = 'work';
+
     },
   },
 });

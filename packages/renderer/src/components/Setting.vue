@@ -17,7 +17,7 @@
         <IconStopCircle />
       </span>
     </span>
-    <span class="text-center">XX:XX</span>
+    <span class="text-center">{{ timer }}</span>
     <span
       class="btn text-center"
       style="margin-left: auto;"
@@ -116,6 +116,8 @@ export default defineComponent({
     },
     props:{
         settings: Object,
+        sec: Number,
+        timer: Object,
     },
     data(){
         return {
