@@ -59,18 +59,27 @@ export default defineComponent({
   data(){
     return {
       mode: 'work',//work,break
-      h: 40,
+      // h: 40,
       timer:{i:0},
       settings:{
         activeButton: 'stop', //play,stop
-        stime: 150,
+        stime: 15,
         ttime: 30,
-        autotime: 5,
+        autotime: 10,
         windowAlwaysOnTop: this.getWindowAlwaysOnTop(),
         startword: 'Work', 
         takeword: 'Drink a water',
       },
     };
+  },
+  computed:{
+    h(){
+      if(this.mode === 'work'){
+        return (this.timer.stime - this.timer.i) / this.timer.stime * 100;
+      }else{
+        return this.timer.i / this.timer.stime * 100;
+      }
+    },
   },
   watch:{
     'settings.windowAlwaysOnTop'(newvalue,oldvalue){

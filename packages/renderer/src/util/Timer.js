@@ -5,6 +5,7 @@ export default class Timer {
       this.successHandle = successHandle;
       this.vuedata = vuedata;
       vuedata.i = i;
+      vuedata.stime = i;
       this.start();
     }
     test() {
