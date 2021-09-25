@@ -17,7 +17,7 @@
         <IconStopCircle />
       </span>
     </span>
-    <span class="text-center">{{ timer }}</span>
+    <span class="text-center">{{ lessTime }}</span>
     <span
       class="btn text-center"
       style="margin-left: auto;"
@@ -123,6 +123,14 @@ export default defineComponent({
         return {
             openSetting: false,
         };
+    },
+    computed:{
+      lessTime(){
+        let sec = this.sec;
+        let minute = Math.floor( sec / 60);
+        let second = sec % 60;
+        return `${minute.toString().padStart(2,'0')}:${second.toString().padStart(2,'0')}`;
+      },
     },
     methods:{
         toggleSetting(){

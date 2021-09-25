@@ -1,9 +1,10 @@
 export default class Timer {
-    constructor(i, everytimeHandle, successHandle) {
-      this.i = i;
+    constructor(i, everytimeHandle, successHandle, vuedata) {
       this.stime = i;
       this.everytimeHandle = everytimeHandle;
       this.successHandle = successHandle;
+      this.vuedata = vuedata;
+      vuedata.i = i;
       this.start();
     }
     test() {
@@ -28,5 +29,13 @@ export default class Timer {
         this.timerId = null;
       }
 
+    }
+
+    get i(){
+      return this.vuedata.i;
+    }
+
+    set i(i){
+      this.vuedata.i = i;
     }
   }

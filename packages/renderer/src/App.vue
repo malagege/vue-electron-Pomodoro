@@ -25,7 +25,7 @@
   </div>
   <Setting
     :settings="settings"
-    :timer="timer"
+    :sec="timer?.i"
     @update:settings="updateSettings"
   />
   <div style="position: relative;">
@@ -62,12 +62,12 @@ export default defineComponent({
       h: 40,
       timer:{i:0},
       settings:{
-        activeButton: 'stop',
-        stime: 1500,
-        ttime: 300,
+        activeButton: 'stop', //play,stop
+        stime: 15,
+        ttime: 3,
         autotime: 100,
         windowAlwaysOnTop: this.getWindowAlwaysOnTop(),
-        startword: 'Work',
+        startword: 'Work', 
         takeword: 'Drink a water',
       },
     };
@@ -90,16 +90,16 @@ export default defineComponent({
     },
     mode(){
       let {time,everytimeHandle,finishHandle} = this.getModeAndHandle();
-      let timer = new Timer(time ,everytimeHandle ,finishHandle);
-      this.timer = timer;
+      let timer = new Timer(time ,everytimeHandle ,finishHandle, this.timer);
+      // this.timer = Object.assign({}, this.timer, {...timer})
       console.log('timer', timer);
     },
   },
   mounted(){
       console.log('this.getModeAndHandle()',this.getModeAndHandle());
       let {time,everytimeHandle,finishHandle} = this.getModeAndHandle();
-      let timer = new Timer(time ,everytimeHandle , finishHandle);
-      this.timer = timer;
+      console.log('this',this);
+      let timer = new Timer(time ,everytimeHandle ,finishHandle, this.timer);
       console.log('timer', timer);
 
     // this.Timer = new Timer(this.settings.stime, this.openClockHandle());
@@ -164,6 +164,7 @@ export default defineComponent({
     workFinishHandle(){
       console.log('workFinishHandle finished');
       this.mode = 'break';
+      this.settings.activeButton = 'play';
 
     },
     breakEverytimeHandle(timer){
@@ -176,7 +177,7 @@ export default defineComponent({
     breakeFinishHandle(){
       console.log('breakeFinishHandle finished');
       this.mode = 'work';
-
+      this.settings.activeButton = 'play';
     },
   },
 });
