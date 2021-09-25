@@ -142,6 +142,12 @@ export default defineComponent({
       let triggerPlayStopBtn = settings.activeButton;
       if( triggerPlayStopBtn){
         clearInterval(this.autoStartId);
+        if( triggerPlayStopBtn === 'play'){
+          console.log('triggerPlayStopBtn openBreakAutostartTimer');
+          this.openAutostartTimer();
+        }else{
+          clearInterval(this.autoStartId);
+        }
       }
       Object.assign(this.settings,settings);
     },
