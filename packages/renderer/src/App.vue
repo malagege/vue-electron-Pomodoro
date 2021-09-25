@@ -63,8 +63,8 @@ export default defineComponent({
       timer:{i:0},
       settings:{
         activeButton: 'stop', //play,stop
-        stime: 15,
-        ttime: 3,
+        stime: 150,
+        ttime: 30,
         autotime: 5,
         windowAlwaysOnTop: this.getWindowAlwaysOnTop(),
         startword: 'Work', 
@@ -87,6 +87,7 @@ export default defineComponent({
       if(newvalue === oldvalue){
         return false;
       }
+      // clearInterval(this.autoStartId);
     },
     mode(){
       let {time,everytimeHandle,finishHandle} = this.getModeAndHandle();
@@ -102,7 +103,6 @@ export default defineComponent({
       let timer = new Timer(time ,everytimeHandle ,finishHandle, this.timer);
       console.log('timer', timer);
 
-    // this.Timer = new Timer(this.settings.stime, this.openClockHandle());
   },
   methods:{
     maximize() {
@@ -130,15 +130,15 @@ export default defineComponent({
     },
     updateSettings(settings){
       console.log('updateSettings', settings);
-
+      let triggerPlayStopBtn = settings.activeButton;
+      if( triggerPlayStopBtn){
+        clearInterval(this.autoStartId);
+      }
       Object.assign(this.settings,settings);
     },
     getWindowDesktopIdle(){
       console.log(electron.getWindowDesktopIdle());
       return electron.getWindowDesktopIdle();
-    },
-    openClockHandle(){
-      this.settings.activeButton = 'play';
     },
     getModeAndHandle(){
       if(this.mode === 'work'){
@@ -179,11 +179,15 @@ export default defineComponent({
       this.mode = 'work';
       this.settings.activeButton = 'play';
       this.openAutostartTimer();
+      let msg = this.settings.takeword;
+      this.AlertNotification(msg);
     },
     openAutostartTimer(){
       if(this.mode === 'work'){
         this.openWorkAutostartTimer();
       }else{
+        let msg = this.settings.startword;
+        this.AlertNotification(msg);
         this.openBreakAutostartTimer();
       }
     },
@@ -198,6 +202,7 @@ export default defineComponent({
           clearInterval(timerid);
         }
       }, autotime*1000);
+      this.autoStartId = timerid;
     },
     openBreakAutostartTimer(){
       console.log('openBreakAutostartTimer');
@@ -208,18 +213,23 @@ export default defineComponent({
         if( time > autotime ){
           this.settings.activeButton = 'stop';
           clearInterval(timerid);
+        }else{
+          let msg = this.settings.startword;
+          this.AlertNotification(msg);
         }
       }, autotime*1000);
+      this.autoStartId = timerid;
+    },
+    AlertNotification(msg){
+      const NOTIFICATION_TITLE = 'Promodoro';
+      const NOTIFICATION_BODY = msg;
+
+      new Notification(NOTIFICATION_TITLE, { body: NOTIFICATION_BODY })
+        .onclick = () => electron.windowShow();
     },
   },
 });
-(function () {
-const NOTIFICATION_TITLE = 'Title';
-const NOTIFICATION_BODY = 'Notification from the Renderer process. Click to log to console.';
 
-new Notification(NOTIFICATION_TITLE, { body: NOTIFICATION_BODY })
-  .onclick = () => electron.windowShow();
-})();
 </script>
 
 <style>
