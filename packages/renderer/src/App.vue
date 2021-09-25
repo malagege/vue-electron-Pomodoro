@@ -223,7 +223,7 @@ export default defineComponent({
           this.settings.activeButton = 'stop';
           clearInterval(timerid);
         }else{
-          let msg = this.settings.startword;
+          let msg = this.settings.takeword;
           this.AlertNotification(msg);
         }
       }, autotime*1000);
