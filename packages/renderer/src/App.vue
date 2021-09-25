@@ -65,7 +65,7 @@ export default defineComponent({
         activeButton: 'stop', //play,stop
         stime: 15,
         ttime: 3,
-        autotime: 100,
+        autotime: 5,
         windowAlwaysOnTop: this.getWindowAlwaysOnTop(),
         startword: 'Work', 
         takeword: 'Drink a water',
@@ -165,7 +165,7 @@ export default defineComponent({
       console.log('workFinishHandle finished');
       this.mode = 'break';
       this.settings.activeButton = 'play';
-
+      this.openAutostartTimer();
     },
     breakEverytimeHandle(timer){
       console.log('breakEverytimeHandle');
@@ -178,6 +178,38 @@ export default defineComponent({
       console.log('breakeFinishHandle finished');
       this.mode = 'work';
       this.settings.activeButton = 'play';
+      this.openAutostartTimer();
+    },
+    openAutostartTimer(){
+      if(this.mode === 'work'){
+        this.openWorkAutostartTimer();
+      }else{
+        this.openBreakAutostartTimer();
+      }
+    },
+    openWorkAutostartTimer(){
+      console.log('openWorkAutostartTimer');
+      let autotime = this.settings.autotime;
+      let timerid = setInterval(() => {
+        console.log('openWorkAutostartTimersetInterval');
+        let time = this.getWindowDesktopIdle();
+        if( time < autotime ){
+          this.settings.activeButton = 'stop';
+          clearInterval(timerid);
+        }
+      }, autotime*1000);
+    },
+    openBreakAutostartTimer(){
+      console.log('openBreakAutostartTimer');
+      let autotime = this.settings.autotime;
+      let timerid = setInterval(() => {
+        console.log('openBreakAutostartTimersetInterval');
+        let time = this.getWindowDesktopIdle();
+        if( time > autotime ){
+          this.settings.activeButton = 'stop';
+          clearInterval(timerid);
+        }
+      }, autotime*1000);
     },
   },
 });
