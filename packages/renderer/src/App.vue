@@ -63,9 +63,9 @@ export default defineComponent({
       timer:{i:0},
       settings:{
         activeButton: 'stop', //play,stop
-        stime: 15,
-        ttime: 30,
-        autotime: 10,
+        stime: 1500,
+        ttime: 300,
+        autotime: 60,
         windowAlwaysOnTop: this.getWindowAlwaysOnTop(),
         startword: 'Work', 
         takeword: 'Drink a water',
