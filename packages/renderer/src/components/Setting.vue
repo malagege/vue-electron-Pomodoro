@@ -50,7 +50,7 @@
         <input
           type="number" 
           :value="settings.stime" 
-          @change="$emit('update:settings',{ stime: $event.target.value})"
+          @input="$emit('update:settings',{ stime: $event.target.value})"
         >秒
       </span>
     </div>
@@ -62,7 +62,7 @@
         <input
           type="number" 
           :value="settings.ttime"
-          @change="$emit('update:settings',{ ttime: $event.target.value})"
+          @input="$emit('update:settings',{ ttime: $event.target.value})"
         >秒
       </span>
     </div>
@@ -74,7 +74,7 @@
         <input
           type="number" 
           :value="settings.autotime"
-          @change="$emit('update:settings',{ autotime: $event.target.value})"
+          @input="$emit('update:settings',{ autotime: $event.target.value})"
         >秒
       </span>
     </div>
@@ -85,7 +85,7 @@
       <span>
         <textarea 
           :value="settings.startword"
-          @change="$emit('update:settings',{ startword: $event.target.value})"
+          @input="$emit('update:settings',{ startword: $event.target.value})"
         />
       </span>
     </div>
@@ -96,7 +96,7 @@
       <span>
         <textarea 
           :value="settings.takeword"
-          @change="$emit('update:settings',{ takeword: $event.target.value })"
+          @input="$emit('update:settings',{ takeword: $event.target.value })"
         />
       </span>
     </div>
