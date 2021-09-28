@@ -95,13 +95,12 @@ export default defineComponent({
       console.log('timer', timer);
     },
   },
-  mounted(){
-      console.log('this.getModeAndHandle()',this.getModeAndHandle());
-      let {time,everytimeHandle,finishHandle} = this.getModeAndHandle();
-      let timer = new Timer(time ,everytimeHandle , finishHandle);
-      this.timer = timer;
-      console.log('timer', timer);
-
+  async mounted(){
+    console.log('this.getModeAndHandle()',this.getModeAndHandle());
+    let {time,everytimeHandle,finishHandle} = await this.getModeAndHandle();
+    console.log('this',this);
+    this.timer =await new Timer(time ,everytimeHandle ,finishHandle);
+    console.log('vue.timer', this.timer);
     // this.Timer = new Timer(this.settings.stime, this.openClockHandle());
   },
   methods:{

@@ -17,7 +17,7 @@
         <IconStopCircle />
       </span>
     </span>
-    <span class="text-center">{{ timer }}</span>
+    <span class="text-center">{{ timer.i }}</span>
     <span
       class="btn text-center"
       style="margin-left: auto;"
