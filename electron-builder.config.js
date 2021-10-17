@@ -9,6 +9,11 @@ if (process.env.VITE_APP_VERSION === undefined) {
  */
 const config = {
   npmRebuild: false,
+  publish:[
+    {
+      provider: 'github',
+    },
+  ],
   directories: {
     output: 'dist',
     buildResources: 'buildResources',
