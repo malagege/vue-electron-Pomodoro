@@ -100,6 +100,11 @@
         />
       </span>
     </div>
+    <div>
+      <button @click="checkUpdate">
+        更新
+      </button>
+    </div>
   </div>
 </template>
 <script>
@@ -107,6 +112,9 @@ import {defineComponent} from 'vue';
 import IconSettings from '~icons/ri/settings-4-fill';
 import IconPlayCircle from '~icons/ri/play-circle-fill';
 import IconStopCircle from '~icons/ri/stop-circle-fill';
+
+import {useElectron } from '/@/use/electron';
+let electron = useElectron();
 
 export default defineComponent({
     components:{
@@ -142,6 +150,9 @@ export default defineComponent({
             if(value){
                 this.$emit('update:settings',{ [name] : value });
             }
+        },
+        checkUpdate(){
+          electron.checkUpdate();
         },
     },
 });
