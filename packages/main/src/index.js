@@ -1,6 +1,7 @@
 import {app, BrowserWindow,ipcMain} from 'electron';
 import {join} from 'path';
 import {URL} from 'url';
+import {checkForUpdates} from './updater.js';
 var desktopIdle = require('desktop-idle');
 
 // [[ Day 9 ] - 動物聊天室(二) - IPC 與訊息交換 - iT 邦幫忙::一起幫忙解決難題，拯救 IT 人的一天](https://ithelp.ithome.com.tw/articles/10235110)
@@ -47,6 +48,10 @@ ipcMain.on('window-show', function () {
 
 ipcMain.on('get-window-desktop-idle', function (event) {
   event.returnValue = desktopIdle.getIdleTime();
+});
+
+ipcMain.on('check-update', function(){
+  checkForUpdates();
 });
 
 
@@ -139,10 +144,10 @@ app.whenReady()
 
 
 // Auto-updates
-if (import.meta.env.PROD) {
-  app.whenReady()
-    .then(() => import('electron-updater'))
-    .then(({autoUpdater}) => autoUpdater.checkForUpdatesAndNotify())
-    .catch((e) => console.error('Failed check updates:', e));
-}
+// if (import.meta.env.PROD) {
+//   app.whenReady()
+//     .then(() => import('electron-updater'))
+//     .then(({autoUpdater}) => autoUpdater.checkForUpdatesAndNotify())
+//     .catch((e) => console.error('Failed check updates:', e));
+// }
 
