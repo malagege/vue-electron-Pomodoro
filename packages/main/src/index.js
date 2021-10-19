@@ -1,7 +1,7 @@
 import {app, BrowserWindow,ipcMain} from 'electron';
 import {join} from 'path';
 import {URL} from 'url';
-import {checkForUpdates} from './updater.js';
+
 var desktopIdle = require('desktop-idle');
 
 // [[ Day 9 ] - 動物聊天室(二) - IPC 與訊息交換 - iT 邦幫忙::一起幫忙解決難題，拯救 IT 人的一天](https://ithelp.ithome.com.tw/articles/10235110)
@@ -51,7 +51,8 @@ ipcMain.on('get-window-desktop-idle', function (event) {
 });
 
 ipcMain.on('check-update', function(){
-  checkForUpdates();
+  // import {checkForUpdates} from './updater.js'; // 會發生  error  Parsing error: 'import' and 'export' may only appear at the top level
+  () => import('./updater.js').then(({checkForUpdates})=> checkForUpdates());
 });
 
 
@@ -144,10 +145,13 @@ app.whenReady()
 
 
 // Auto-updates
-// if (import.meta.env.PROD) {
-//   app.whenReady()
-//     .then(() => import('electron-updater'))
-//     .then(({autoUpdater}) => autoUpdater.checkForUpdatesAndNotify())
-//     .catch((e) => console.error('Failed check updates:', e));
-// }
+if (import.meta.env.PROD) {
+  app.whenReady()
+    .then(() => import('electron-updater'))
+    .then(({autoUpdater}) => autoUpdater.checkForUpdatesAndNotify({
+      title: '程式已經準備好更新',
+      body: '{appName} 版本 {version} 已經下載完成，重開應用程式可進行安裝',
+    }))
+    .catch((e) => console.error('Failed check updates:', e));
+}
 
