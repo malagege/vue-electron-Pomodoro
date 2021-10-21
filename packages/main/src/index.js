@@ -7,7 +7,7 @@ var desktopIdle = require('desktop-idle');
 // [[ Day 9 ] - 動物聊天室(二) - IPC 與訊息交換 - iT 邦幫忙::一起幫忙解決難題，拯救 IT 人的一天](https://ithelp.ithome.com.tw/articles/10235110)
 // 退出程序
 ipcMain.on('window-close', function () {
-  app.quit();
+  app.quit();  // 多視窗處理 https://segmentfault.com/a/1190000038480763
 });
 // 最小化
 ipcMain.on('window-minimize', function () {
@@ -79,7 +79,7 @@ if (import.meta.env.MODE === 'development') {
 
 let mainWindow = null;
 
-const createWindow = async () => {
+const createWindow = async (hash) => {
   mainWindow = new BrowserWindow({
     show: false, // Use 'ready-to-show' event to show window
     webPreferences: {
@@ -115,8 +115,9 @@ const createWindow = async () => {
    * `file://../renderer/index.html` for production and test
    */
   const pageUrl = import.meta.env.MODE === 'development' && import.meta.env.VITE_DEV_SERVER_URL !== undefined
-    ? import.meta.env.VITE_DEV_SERVER_URL
-    : new URL('../renderer/dist/index.html', 'file://' + __dirname).toString();
+    ? import.meta.env.VITE_DEV_SERVER_URL+`#/${hash || ''}`
+    : new URL(`../renderer/dist/index.html#/${hash || ''}`, 'file://' + __dirname).toString();
+
 
 
   await mainWindow.loadURL(pageUrl);
@@ -141,6 +142,7 @@ app.on('window-all-closed', () => {
 
 app.whenReady()
   .then(createWindow)
+  // .then(() => createWindow('about'))
   .catch((e) => console.error('Failed create window:', e));
 
 
