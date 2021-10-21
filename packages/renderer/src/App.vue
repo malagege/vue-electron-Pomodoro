@@ -53,7 +53,7 @@ export default defineComponent({
         electron.minimize();
         },
         close() {
-        electron.close();
+            window.close();
         },
     },
 

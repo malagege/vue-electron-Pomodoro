@@ -8,6 +8,7 @@ var desktopIdle = require('desktop-idle');
 // 退出程序
 ipcMain.on('window-close', function () {
   app.quit();  // 多視窗處理 https://segmentfault.com/a/1190000038480763
+  // 但我改用 window.close();
 });
 // 最小化
 ipcMain.on('window-minimize', function () {
@@ -80,7 +81,7 @@ if (import.meta.env.MODE === 'development') {
 let mainWindow = null;
 
 const createWindow = async (hash) => {
-  mainWindow = new BrowserWindow({
+  let tmpWindow = new BrowserWindow({
     show: false, // Use 'ready-to-show' event to show window
     webPreferences: {
       nativeWindowOpen: true,
@@ -92,8 +93,13 @@ const createWindow = async (hash) => {
     width: 800,height: 600,
     frame: false,
     transparent: true,
-    // resizable: false
+    // resizable: false,
+    parent: mainWindow,
   });
+
+  if(mainWindow == null){
+    mainWindow = tmpWindow;
+  }
 
   /**
    * If you install `show: true` then it can cause issues when trying to close the window.
@@ -101,11 +107,11 @@ const createWindow = async (hash) => {
    *
    * @see https://github.com/electron/electron/issues/25012
    */
-  mainWindow.on('ready-to-show', () => {
-    mainWindow?.show();
+  tmpWindow.on('ready-to-show', () => {
+    tmpWindow?.show();
 
     if (import.meta.env.MODE === 'development') {
-      mainWindow?.webContents.openDevTools();
+      tmpWindow?.webContents.openDevTools();
     }
   });
 
@@ -120,7 +126,7 @@ const createWindow = async (hash) => {
 
 
 
-  await mainWindow.loadURL(pageUrl);
+  await tmpWindow.loadURL(pageUrl);
 };
 
 
@@ -142,7 +148,7 @@ app.on('window-all-closed', () => {
 
 app.whenReady()
   .then(createWindow)
-  // .then(() => createWindow('about'))
+  .then(() => createWindow('about'))
   .catch((e) => console.error('Failed create window:', e));
 
 
