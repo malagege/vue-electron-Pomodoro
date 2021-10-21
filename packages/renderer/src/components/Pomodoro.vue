@@ -1,28 +1,4 @@
 <template>
-  <div id="title-bar">
-    <div id="title">
-      Pomodoro
-    </div>
-    <div id="title-bar-btns">
-      <div
-        id="min-btn"
-        class="btn"
-        @click="minimize"
-      >
-        <IconWindowMinimize />
-      </div>
-      <!-- <div class="btn" id="max-btn" @click="maximize">
-             <IconWindowMaximize></IconWindowMaximize>
-           </div> -->
-      <div
-        id="close-btn"
-        class="btn"
-        @click="close"
-      >
-        <IconClose />
-      </div>
-    </div>
-  </div>
   <Setting
     :settings="settings"
     :sec="timer?.i"
@@ -37,9 +13,6 @@
 import {defineComponent} from 'vue';
 // import AppNavigation from '/@/components/AppNavigation.vue'
 import TheBackground from '/@/components/TheBackground.vue';
-// import IconWindowMaximize from '~icons/uil/window-maximize'
-import IconClose from '~icons/majesticons/close';
-import IconWindowMinimize from '~icons/zmdi/window-minimize';
 import Setting from '/@/components/Setting.vue';
 import {useElectron } from '/@/use/electron';
 import Timer from '/@/util/Timer.js';
@@ -47,13 +20,10 @@ let electron = useElectron();
 
   // const { ipcRenderer } = window.electron
 export default defineComponent({
-  name: 'App',
+  name: 'Pomodoro',
   components: {
     // AppNavigation,
     TheBackground,
-    // IconWindowMaximize,
-    IconClose,
-    IconWindowMinimize,
     Setting,
   },
   data(){
@@ -114,20 +84,6 @@ export default defineComponent({
 
   },
   methods:{
-    maximize() {
-      this.fullscreen = true;
-      electron.maximize();
-    },
-    unmaximize() {
-      this.fullscreen = false;
-      electron.unmaximize();
-    },
-    minimize() {
-      electron.minimize();
-    },
-    close() {
-      electron.close();
-    },
     enableWindowAlwaysOnTop(){
       electron.enableWindowAlwaysOnTop();
     },
