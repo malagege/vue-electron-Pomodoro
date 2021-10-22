@@ -150,14 +150,14 @@ export default defineComponent({
       this.mode = 'work';
       this.settings.activeButton = 'play';
       this.openAutostartTimer();
-      let msg = this.settings.takeword;
+      let msg = this.settings.startword;
       this.AlertNotification(msg);
     },
     openAutostartTimer(){
       if(this.mode === 'work'){
         this.openWorkAutostartTimer();
       }else{
-        let msg = this.settings.startword;
+        let msg = this.settings.takeword;
         this.AlertNotification(msg);
         this.openBreakAutostartTimer();
       }
