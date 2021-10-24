@@ -21,6 +21,7 @@ export default defineComponent({
   name: 'App',
   setup() {
     const {versions} = useElectron();
+    document.body.style.background = 'gray';
     // It makes no sense to make "versions" reactive
     return {versions};
   },

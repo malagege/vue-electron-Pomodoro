@@ -41,6 +41,24 @@ ipcMain.on('get-window-always-on-top', function (event) {
   event.returnValue = mainWindow.isAlwaysOnTop();
 });
 
+ipcMain.on('open-notify-window', function (event, args) {
+  if( notifyWindow?.isVisible() ){
+
+    let hash = 'notifyWindow';
+    let urlParam  = args;
+    const pageUrl = import.meta.env.MODE === 'development' && import.meta.env.VITE_DEV_SERVER_URL !== undefined
+    ? import.meta.env.VITE_DEV_SERVER_URL+`#/${hash || ''}${urlParam}`
+    : new URL(`../renderer/dist/index.html#/${hash || ''}${urlParam}`, 'file://' + __dirname).toString();
+
+    notifyWindow.loadURL(pageUrl);
+    notifyWindow.focus();
+  }else{
+    let closeEvent = () => {
+      notifyWindow = null;
+    };
+    createWindow('notifyWindow',{width:600,height: 300}, args, closeEvent, (win) => notifyWindow=win);
+  }
+});
 
 ipcMain.on('window-show', function () {
   mainWindow.show();
@@ -79,8 +97,10 @@ if (import.meta.env.MODE === 'development') {
 }
 
 let mainWindow = null;
+/*eslint-disable no-unused-vars*/
+let notifyWindow = null;
 
-const createWindow = async (hash) => {
+const createWindow = async (hash,{width,height} = {width:200,height:600}, urlParam = '',closeEvent,chgWindowFun) => {
   let tmpWindow = new BrowserWindow({
     show: false, // Use 'ready-to-show' event to show window
     webPreferences: {
@@ -90,7 +110,7 @@ const createWindow = async (hash) => {
       // contextIsolation: false
     },
     alwaysOnTop: true,
-    width: 800,height: 600,
+    width,height,
     frame: false,
     transparent: true,
     // resizable: false,
@@ -121,11 +141,15 @@ const createWindow = async (hash) => {
    * `file://../renderer/index.html` for production and test
    */
   const pageUrl = import.meta.env.MODE === 'development' && import.meta.env.VITE_DEV_SERVER_URL !== undefined
-    ? import.meta.env.VITE_DEV_SERVER_URL+`#/${hash || ''}`
-    : new URL(`../renderer/dist/index.html#/${hash || ''}`, 'file://' + __dirname).toString();
+    ? import.meta.env.VITE_DEV_SERVER_URL+`#/${hash || ''}${urlParam}`
+    : new URL(`../renderer/dist/index.html#/${hash || ''}${urlParam}`, 'file://' + __dirname).toString();
 
-
-
+  if(closeEvent){
+    tmpWindow.on('close',closeEvent);
+  }
+  if(chgWindowFun){
+    chgWindowFun(tmpWindow);
+  }
   await tmpWindow.loadURL(pageUrl);
 };
 
@@ -148,7 +172,7 @@ app.on('window-all-closed', () => {
 
 app.whenReady()
   .then(createWindow)
-  .then(() => createWindow('about'))
+  // .then(() => createWindow('about',{width:200,height: 200}))
   .catch((e) => console.error('Failed create window:', e));
 
 

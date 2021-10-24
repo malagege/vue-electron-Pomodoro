@@ -84,6 +84,9 @@ export default defineComponent({
 
   },
   methods:{
+    openNotifyWindow(text){
+      electron.openNotifyWindow(text);
+    },
     enableWindowAlwaysOnTop(){
       electron.enableWindowAlwaysOnTop();
     },
@@ -197,6 +200,7 @@ export default defineComponent({
 
       new Notification(NOTIFICATION_TITLE, { body: NOTIFICATION_BODY })
         .onclick = () => electron.windowShow();
+      this.openNotifyWindow(this.mode ==='work' ?this.settings.startword : this.settings.takeword);
     },
   },
 });
