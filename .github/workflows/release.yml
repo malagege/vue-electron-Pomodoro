@@ -36,6 +36,9 @@ jobs:
         with:
           fetch-depth: 0
 
+      - name: Install Snapcraft
+        uses: samuelmeuli/action-snapcraft@v2
+
       - uses: actions/setup-node@v2
         with:
           node-version: 14
@@ -110,8 +113,8 @@ jobs:
           RELEASE_NOTE: ${{ needs.draft.outputs.release-note }}
         run: echo "$RELEASE_NOTE" >> ./buildResources/release-notes.md
 
-      - name: electron-rebuild  init run
-        run: npx electron-rebuild
+      # - name: electron-rebuild  init run
+      #   run: npx electron-rebuild
 
       # Compile app and upload artifacts
       - name: Compile & release Electron app
