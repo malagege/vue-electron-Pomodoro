@@ -3,6 +3,7 @@
     <span
       class="btn text-center"
       style="margin-right: auto;"
+      data-testid="toggle-play"
     >
       <span
         v-if="settings.activeButton === 'play'"
@@ -17,7 +18,10 @@
         <IconStopCircle />
       </span>
     </span>
-    <span class="text-center">{{ lessTime }}</span>
+    <span
+      class="text-center"
+      data-testid="timer-display"
+    >{{ lessTime }}</span>
     <span
       class="btn text-center"
       style="margin-left: auto;"
@@ -123,10 +127,10 @@ export default defineComponent({
         IconStopCircle,
     },
     props:{
-        settings: Object,
-        sec: Number,
-        timer: Object,
+        settings: {type: Object, required: true},
+        sec: {type: Number, default: 0},
     },
+    emits:['update:settings'],
     data(){
         return {
             openSetting: false,

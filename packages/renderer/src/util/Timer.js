@@ -1,11 +1,11 @@
 export default class Timer {
     constructor(i, everytimeHandle, successHandle, vuedata) {
-      this.stime = i;
+      this.stime = Number(i) || 0;
       this.everytimeHandle = everytimeHandle;
       this.successHandle = successHandle;
       this.vuedata = vuedata;
-      vuedata.i = i;
-      vuedata.stime = i;
+      vuedata.i = this.stime;
+      vuedata.stime = this.stime;
       this.start();
     }
     test() {
@@ -14,13 +14,15 @@ export default class Timer {
     start() {
       if( this.timerId ) return false;
       this.timerId = setInterval(() => {
+        const shouldTick = this.everytimeHandle ? this.everytimeHandle(this) : true;
+        if (!shouldTick) {
+          return;
+        }
         this.i -= 1;
         console.log('Timer i:' + this.i);
         if (this.i <= 0) {
           this.stop();
           this.successHandle(this);
-        }else{
-          this.everytimeHandle(this);
         }
       }, 1000);
     }

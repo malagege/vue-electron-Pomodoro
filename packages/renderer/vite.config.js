@@ -1,26 +1,26 @@
 /* eslint-env node */
+const {join} = require('path');
+const {builtinModules} = require('module');
+const {chrome} = require('../../electron-vendors.config.json');
+const vue = require('@vitejs/plugin-vue');
+const Icons = require('unplugin-icons/vite');
 
-import {chrome} from '../../electron-vendors.config.json';
-import {join} from 'path';
-import {builtinModules} from 'module';
-import vue from '@vitejs/plugin-vue';
-import Icons from 'unplugin-icons/vite';
-
-const PACKAGE_ROOT = __dirname;
+const vuePlugin = vue.default || vue;
+const iconsPlugin = Icons.default || Icons;
 
 /**
  * @type {import('vite').UserConfig}
  * @see https://vitejs.dev/config/
  */
-const config = {
+module.exports = {
   mode: process.env.MODE,
-  root: PACKAGE_ROOT,
+  root: __dirname,
   resolve: {
     alias: {
-      '/@/': join(PACKAGE_ROOT, 'src') + '/',
+      '/@/': join(__dirname, 'src') + '/',
     },
   },
-  plugins: [vue(), Icons({ /* options */ })],
+  plugins: [vuePlugin(), iconsPlugin({ /* options */ })],
   base: '',
   server: {
     fs: {
@@ -48,5 +48,3 @@ const config = {
     brotliSize: false,
   },
 };
-
-export default config;

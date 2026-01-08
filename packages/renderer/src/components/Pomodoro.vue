@@ -129,11 +129,9 @@ export default defineComponent({
         };
       }
     },
-    workEverytimeHandle(timer){
+    workEverytimeHandle(){
       console.log('workEverytimeHandle');
-      if( this.settings.activeButton === 'play' ){
-        timer.i++;
-      }
+      return this.settings.activeButton === 'play';
     },
     workFinishHandle(){
       console.log('workFinishHandle finished');
@@ -141,12 +139,9 @@ export default defineComponent({
       this.settings.activeButton = 'play';
       this.openAutostartTimer();
     },
-    breakEverytimeHandle(timer){
+    breakEverytimeHandle(){
       console.log('breakEverytimeHandle');
-      if( this.settings.activeButton === 'play' ){
-        timer.i++;
-      }
-      //todo
+      return this.settings.activeButton === 'play';
     },
     breakeFinishHandle(){
       console.log('breakeFinishHandle finished');
