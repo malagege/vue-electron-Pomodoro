@@ -3,7 +3,13 @@ const {strict: assert} = require('assert');
 
 // Playwright has EXPERIMENTAL electron support.
 (async () => {
-  const electronApp = await electron.launch({args: ['.']});
+  const electronApp = await electron.launch({
+    args: ['.'],
+    env: {
+      ...process.env,
+      ELECTRON_DISABLE_SANDBOX: '1',
+    },
+  });
 
   /**
    * App main window state
@@ -42,6 +48,22 @@ const {strict: assert} = require('assert');
   const element = await page.$('#app', {strict: true});
   assert.notStrictEqual(element, null, 'Can\'t find root element');
   assert.notStrictEqual((await element.innerHTML()).trim(), '', 'Window content is empty');
+
+  const timerDisplay = await page.waitForSelector('[data-testid="timer-display"]');
+  const initialTime = (await timerDisplay.textContent()).trim();
+
+  // Should stay paused while stopped
+  await page.waitForTimeout(2100);
+  const pausedTime = (await timerDisplay.textContent()).trim();
+  assert.strictEqual(pausedTime, initialTime, 'Timer should remain paused before starting');
+
+  const toggleButton = await page.$('[data-testid="toggle-play"]');
+  assert.notStrictEqual(toggleButton, null, 'Missing play toggle');
+  await toggleButton.click();
+
+  await page.waitForTimeout(2100);
+  const runningTime = (await timerDisplay.textContent()).trim();
+  assert.notStrictEqual(runningTime, pausedTime, 'Timer should count down after starting');
 
 
   // Checking the framework.

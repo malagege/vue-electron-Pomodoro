@@ -12,7 +12,7 @@
     "precompile": "cross-env MODE=production npm run build",
     "compile": "electron-builder build --config electron-builder.config.js --dir --config.asar=false",
     "pretest": "npm run build",
-    "test": "node tests/app.spec.js",
+    "test": "xvfb-run -a node tests/app.spec.js",
     "watch": "node scripts/watch.js",
     "lint": "eslint . --ext js,vue"
   },

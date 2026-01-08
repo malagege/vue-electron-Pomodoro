@@ -1,20 +1,19 @@
-import {chrome} from '../../electron-vendors.config.json';
-import {join} from 'path';
-import {builtinModules} from 'module';
-
-const PACKAGE_ROOT = __dirname;
+/* eslint-env node */
+const {join} = require('path');
+const {builtinModules} = require('module');
+const {chrome} = require('../../electron-vendors.config.json');
 
 /**
  * @type {import('vite').UserConfig}
  * @see https://vitejs.dev/config/
  */
-const config = {
+module.exports = {
   mode: process.env.MODE,
-  root: PACKAGE_ROOT,
+  root: __dirname,
   envDir: process.cwd(),
   resolve: {
     alias: {
-      '/@/': join(PACKAGE_ROOT, 'src') + '/',
+      '/@/': join(__dirname, 'src') + '/',
     },
   },
   build: {
@@ -47,5 +46,3 @@ const config = {
     brotliSize: false,
   },
 };
-
-export default config;
